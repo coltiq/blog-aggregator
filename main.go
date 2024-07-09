@@ -12,6 +12,9 @@ import (
 func NewServer() *http.Server {
 	mux := http.NewServeMux()
 
+	mux.HandleFunc("GET /v1/healthz", handlerReadiness)
+	mux.HandleFunc("GET /v1/err", handlerErr)
+
 	srv := &http.Server{
 		Addr:              ":" + os.Getenv("PORT"),
 		Handler:           mux,
