@@ -1,0 +1,28 @@
+{
+	"Golang errors": {},
+	"Issues": [
+		{
+			"severity": "MEDIUM",
+			"confidence": "LOW",
+			"cwe": {
+				"id": "400",
+				"url": "https://cwe.mitre.org/data/definitions/400.html"
+			},
+			"rule_id": "G112",
+			"details": "Potential Slowloris Attack because ReadHeaderTimeout is not configured in the http.Server",
+			"file": "/home/colt/Code/learning/boot-dev/blog-aggregator/main.go",
+			"code": "13: \n14: \tsrv := \u0026http.Server{\n15: \t\tAddr:    os.Getenv(\"PORT\"),\n16: \t\tHandler: mux,\n17: \t\t//ReadHeaderTimeout: 10 * time.Second,\n18: \t}\n19: \treturn srv\n",
+			"line": "14-18",
+			"column": "10",
+			"nosec": false,
+			"suppressions": null
+		}
+	],
+	"Stats": {
+		"files": 1,
+		"lines": 45,
+		"nosec": 0,
+		"found": 1
+	},
+	"GosecVersion": "dev"
+}
