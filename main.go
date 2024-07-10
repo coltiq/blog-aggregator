@@ -1,19 +1,33 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/coltiq/blog-aggregator/internal/database"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
-func NewServer() *http.Server {
+type apiConfig struct {
+	DB *database.Queries
+}
+
+func NewServer(db *sql.DB) *http.Server {
+	apiCfg := apiConfig{
+		DB: database.New(db),
+	}
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /v1/healthz", handlerReadiness)
 	mux.HandleFunc("GET /v1/err", handlerErr)
+
+	// Users
+	mux.HandleFunc("POST /v1/users", apiCfg.handlerCreateUser)
 
 	srv := &http.Server{
 		Addr:              ":" + os.Getenv("PORT"),
@@ -34,7 +48,17 @@ func main() {
 		log.Fatal("PORT environment variable is not set")
 	}
 
-	srv := NewServer()
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		log.Fatal("DATABASE_URL environment variable is not set")
+	}
+
+	db, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatal("Database could not be opened")
+	}
+
+	srv := NewServer(db)
 
 	log.Printf("Starting server [:%s]...", port)
 	log.Fatal(srv.ListenAndServe())
