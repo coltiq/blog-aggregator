@@ -55,7 +55,7 @@ func main() {
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
-		log.Fatal("Database could not be opened")
+		log.Fatalf("Database could not be opened: %s", err)
 	}
 
 	srv := NewServer(db)
