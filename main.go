@@ -28,6 +28,7 @@ func NewServer(db *sql.DB) *http.Server {
 
 	// Users
 	mux.HandleFunc("POST /v1/users", apiCfg.handlerCreateUser)
+	mux.HandleFunc("GET /v1/users", apiCfg.handlerGetUser)
 
 	srv := &http.Server{
 		Addr:              ":" + os.Getenv("PORT"),
