@@ -8,4 +8,4 @@ ADD CONSTRAINT unique_apikey UNIQUE (api_key);
 
 -- +goose Down
 ALTER TABLE users
-  DROP COLUMN apikey;
+  DROP COLUMN api_key;
