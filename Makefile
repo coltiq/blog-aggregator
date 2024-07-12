@@ -64,7 +64,6 @@ lint:
 		echo "Failed"; \
 		echo "$$LINT_OUTPUT" | while IFS= read -r line; do echo "x       $$line"; done; \
 	fi
-	@echo ""
 
 # Run the web server
 run: build
