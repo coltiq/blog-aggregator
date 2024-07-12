@@ -26,17 +26,7 @@ test:
 
 secure:
 	@echo -n "Security checks... "; \
-	SECURE_OUTPUT=$$($(GOSEC) ./... 2>&1); \
-	GOSEC_EXIT=$$?; \
-	if [ $$GOSEC_EXIT -ne 0 ]; then \
-		echo "Failed"; \
-		echo "$$SECURE_OUTPUT" | grep 'Results:' -A 10000; \
-		exit $$GOSEC_EXIT; \
-	else \
-	    echo "Success"; \
-		echo "$$SECURE_OUTPUT" | grep 'Summary:' -A 10; \
-	fi
-	@echo ""
+	govulncheck ./...
 
 # Clean the build directory
 clean:
