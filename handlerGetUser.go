@@ -16,7 +16,7 @@ func (cfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request) {
 
 	user, err := cfg.DB.GetUserByAPIKey(r.Context(), apiKey)
 	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "Couldn't get user")
+		respondWithError(w, http.StatusNotFound, "Couldn't get user")
 		return
 	}
 
